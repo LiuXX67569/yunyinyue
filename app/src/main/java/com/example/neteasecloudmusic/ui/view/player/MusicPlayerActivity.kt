@@ -56,9 +56,6 @@ class MusicPlayerActivity : BaseActivity() {
     private lateinit var sharedViewModel: SharedViewModel
     // 播放模式，0表示顺序播放，1表示随机播放
     private var playMode = 0
-    //原始顺序副本
-    //private lateinit var originalMusicList: ArrayList<MusicBean>
-
 
     override fun getLayout(): View {
         binding = MusicplayerActivityLayoutBinding.inflate(layoutInflater)
@@ -75,6 +72,7 @@ class MusicPlayerActivity : BaseActivity() {
         viewPager.adapter = musicPagerAdapter
         // 设置ViewPager的预加载页面数为1
         viewPager.offscreenPageLimit = 1
+        viewPager.setCurrentItem(0, false) // 将初始片段设置为 RotationFragment
         // ViewPager2 页面切换监听器
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -92,6 +90,8 @@ class MusicPlayerActivity : BaseActivity() {
                 val oldFragment = supportFragmentManager.findFragmentByTag(tag)
                 if (oldFragment != null) {
                     supportFragmentManager.beginTransaction()
+                        .add(viewPager.id, rotationFragment, "f0")
+                        .add(viewPager.id, lyricsFragment, "f1")
                         .hide(oldFragment)
                         .show(currentFragment!!)
                         .commit()
@@ -156,7 +156,9 @@ class MusicPlayerActivity : BaseActivity() {
             override fun run() {
                 if (!isFinishing) {
                     runOnUiThread {
-                        seekBar.progress = mediaPlayer.currentPosition
+                        if (mediaPlayer.isPlaying) {
+                            seekBar.progress = mediaPlayer.currentPosition
+                        }
                     }
                     handler.postDelayed(this, 1000) // 每秒更新一次
                 }
