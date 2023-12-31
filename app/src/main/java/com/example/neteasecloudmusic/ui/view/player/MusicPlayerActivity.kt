@@ -21,6 +21,7 @@ import com.example.neteasecloudmusic.databinding.MusicplayerActivityLayoutBindin
 import com.example.neteasecloudmusic.ui.base.BaseActivity
 import com.example.neteasecloudmusic.ui.model.MusicBean
 import com.example.neteasecloudmusic.ui.view.adapter.MusicPagerAdapter
+import com.example.neteasecloudmusic.ui.view.main.MainActivity
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.currentMusicIndex
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.isPlayingBeforeChange
@@ -100,10 +101,9 @@ class MusicPlayerActivity : BaseActivity() {
         //播放列表赋值
         playlistFragment = PlaylistFragment.newInstance(musicList)
         //共享数据赋值
-        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        sharedViewModel = ViewModelProvider(this@MusicPlayerActivity).get(SharedViewModel::class.java)
         seekBar = findViewById(R.id.seekBar)//进度条
         //更新UI
-        Log.d("音乐播放器页面","是否播放：${mediaPlayer.isPlaying}")
         if (mediaPlayer.isPlaying) {
             rotationFragment.startRotation()
             binding.IBplay.setImageResource(R.drawable.img_playerstop)
@@ -159,7 +159,7 @@ class MusicPlayerActivity : BaseActivity() {
                             seekBar.progress = mediaPlayer.currentPosition
                         }
                     }
-                    handler.postDelayed(this, 1000) // 每秒更新一次
+                    handler.postDelayed(this, 500) // 每秒更新一次
                 }
             }
         })
@@ -184,8 +184,8 @@ class MusicPlayerActivity : BaseActivity() {
     }
 
     override fun initData() {
-        //currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
-        //MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
+//        currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
+//        MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
         initMusic(currentMusicIndex)
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
         musicPlayerViewModel.musicList.observe(this) {
@@ -217,11 +217,9 @@ class MusicPlayerActivity : BaseActivity() {
     private fun togglePlayMode() {
         try {
             playMode = if (playMode == 0) 1 else 0
-
             isPlayingBeforeChange = mediaPlayer.isPlaying
             // 先停止MediaPlayer
             stopMediaPlayer()
-
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.start()
                 rotationFragment.startRotation()
@@ -234,7 +232,8 @@ class MusicPlayerActivity : BaseActivity() {
             // 更新音乐列表的顺序
             updateMusicListOrder()
             // 根据新的播放模式，重新初始化音乐
-            initMusic(currentMusicIndex)
+            //initMusic(currentMusicIndex)
+            MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
             // 设置 IBplayMode 的图标
             setPlayModeIcon()
         }catch (e: Exception) {
@@ -272,17 +271,13 @@ class MusicPlayerActivity : BaseActivity() {
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.stop()
             }
-            mediaPlayer.reset()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
     override fun initMusic(index: Int) {
+        stopMediaPlayer()
         currentMusicIndex = index
-        Log.d("旋转试图检查","initMusic旋转试图：${rotationFragment}")
-        Log.d("列表位置检查","initMusic播放器列表位置：${currentMusicIndex}")
-        Log.d("列表位置检查","initMusic静态列表位置：${index}")
-
         mediaPlayer.setOnErrorListener { _, what, extra ->
             // 处理MediaPlayer的错误，添加详细的逻辑
             Log.e(TAG, "MediaPlayer error: $what, $extra")
@@ -415,10 +410,12 @@ class MusicPlayerActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null) // 停止Handler的回调
+        isPlayingBeforeChange = false
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+
     }
 
 }

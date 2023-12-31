@@ -33,9 +33,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.neteasecloudmusic.api.HttpConfig
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.currentMusicIndex
+import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.isPlayingBeforeChange
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.mediaPlayer
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.musicList
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder.originalMusicList
+import com.example.neteasecloudmusic.ui.view.player.LyricsFragment
+import com.example.neteasecloudmusic.ui.view.player.PlaylistFragment
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: MainLayoutBinding
@@ -44,6 +47,8 @@ class MainActivity : BaseActivity() {
     private lateinit var mineFragment: MineFragment
     private lateinit var musicPlayerViewModel: MusicPlayerViewModel//共享音乐数据
     private var currentMusicIndex: Int = 0 // 当前歌曲位置，默认为0
+    private lateinit var playlistFragment: MainPlaylistFragment
+    private lateinit var sharedViewModel: MainSharedViewModel
 
     override fun getLayout(): View {
         binding = MainLayoutBinding.inflate(layoutInflater)
@@ -113,9 +118,11 @@ class MainActivity : BaseActivity() {
             SearchActivity.actionStart(this, searchText)
         }
 
+
         //主页播放器
-        // 初始化媒体播放器
-        //打开播放器界面
+        playlistFragment = MainPlaylistFragment.newInstance(musicList)
+        //共享数据赋值
+        sharedViewModel = ViewModelProvider(this@MainActivity).get(MainSharedViewModel::class.java)
         binding.TRmusicplayer.setOnClickListener {
             val intent = Intent(this, MusicPlayerActivity::class.java)//打开MusicPlayerActivity
             startActivity(intent)
@@ -131,7 +138,7 @@ class MainActivity : BaseActivity() {
             }
         }
         binding.IBmainplaylist.setOnClickListener {
-
+            playlistFragment.show(supportFragmentManager, "playlist_dialog")
         }
 
     }
@@ -160,12 +167,26 @@ class MainActivity : BaseActivity() {
     // 初始化当前歌曲
     override fun initMusic(index: Int) {
         currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
+        if (mediaPlayer.isPlaying){
+            changeplaytostop()
+        }else{
+            changestoptoplay()
+        }
         //初始化mp3
         mediaPlayer.reset()
         val musicUrl = "${HttpConfig.servlet}${musicList[index].mp3_file_path}"
         val uri = Uri.parse(musicUrl)
         mediaPlayer.setDataSource(applicationContext, uri)
         mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener{
+            if (isPlayingBeforeChange){
+                mediaPlayer.start()
+                binding.IBmainplay.setImageResource(R.drawable.img_stop)
+            }else{
+                binding.IBmainplay.setImageResource(R.drawable.img_play)
+            }
+        }
+
 
         //封面图片文件
         Glide.with(this@MainActivity)
@@ -184,6 +205,37 @@ class MainActivity : BaseActivity() {
 
         binding.TVSongTitle.text = musicList[index].music_name
         binding.TVArtist.text = musicList[index].singer
+        // 更新当前音乐位置到 SharedViewModel
+        sharedViewModel.currentMusicIndex.value = index
+        // 共享当前的音乐列表到 SharedViewModel
+        sharedViewModel.updateMusicList(musicList)
+    }
+
+    fun handlePlaylistItemClick(selectedPosition: Int) {
+        // 处理选中音乐的逻辑
+        if (selectedPosition in musicList.indices) {
+            isPlayingBeforeChange = mediaPlayer.isPlaying
+            // 更新当前音乐的位置
+            currentMusicIndex = selectedPosition
+            MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
+            // 调用 PlaylistFragment 中的函数来更新选中位置
+            playlistFragment.updateSelectedPosition(currentMusicIndex)
+            // 模仿 changeMusic 函数进行切换音乐
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.start()
+                binding.IBmainplay.setImageResource(R.drawable.img_stop)
+            } else {
+                binding.IBmainplay.setImageResource(R.drawable.img_play)
+            }
+        }
+        sharedViewModel.currentMusicIndex.value = selectedPosition
+    }
+
+    fun changeplaytostop(){
+        binding.IBmainplay.setImageResource(R.drawable.img_stop)
+    }
+    fun changestoptoplay(){
+        binding.IBmainplay.setImageResource(R.drawable.img_play)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
