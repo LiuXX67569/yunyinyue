@@ -303,7 +303,7 @@ class MusicPlayerActivity : BaseActivity() {
         }
         mediaPlayer.setOnPreparedListener {
             seekBar.max = mediaPlayer.duration
-            val musicDuration:Long = mediaPlayer.duration.toLong()
+            var musicDuration:Long = mediaPlayer.duration.toLong()
             if (isPlayingBeforeChange) {
                 mediaPlayer.start()
                 rotationFragment.startRotation()
@@ -371,8 +371,6 @@ class MusicPlayerActivity : BaseActivity() {
             isPlayingBeforeChange = mediaPlayer.isPlaying
             currentMusicIndex = (currentMusicIndex + offset + musicList.size) % musicList.size
             MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
-            //mediaPlayer.reset()
-            //initMusic(currentMusicIndex)
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.start()
                 rotationFragment.startRotation()
@@ -401,8 +399,6 @@ class MusicPlayerActivity : BaseActivity() {
             // 调用 PlaylistFragment 中的函数来更新选中位置
             playlistFragment.updateSelectedPosition(currentMusicIndex)
             // 模仿 changeMusic 函数进行切换音乐
-            //mediaPlayer.reset()
-            //initMusic(currentMusicIndex)
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.start()
                 rotationFragment.startRotation()
@@ -420,8 +416,7 @@ class MusicPlayerActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //handler.removeCallbacksAndMessages(null) // 停止Handler的回调
-        //MusicDataHolder.currentMusicIndex.removeObservers(this)
+        handler.removeCallbacksAndMessages(null) // 停止Handler的回调
     }
 
     override fun onBackPressed() {

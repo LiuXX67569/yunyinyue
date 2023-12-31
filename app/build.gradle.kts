@@ -80,6 +80,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("androidx.room:room-runtime:2.1.0")
+    implementation("org.greenrobot:eventbus:3.3.1")
     kapt("androidx.room:room-compiler:2.1.0")
 
     testImplementation("junit:junit:4.13.2")

@@ -14,6 +14,10 @@ import androidx.lifecycle.Observer
 import com.example.neteasecloudmusic.ui.view.main.MainActivity
 import com.example.neteasecloudmusic.ui.view.main.MediaPlayerService
 import com.example.neteasecloudmusic.ui.view.main.MusicDataHolder
+import com.example.neteasecloudmusic.ui.view.main.MusicEvent
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseActivity : AppCompatActivity() {
     private var dialogLoading: AlertDialog? = null
@@ -39,17 +43,18 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
         initView()
+        // 注册 EventBus
+        EventBus.getDefault().register(this)
         // 绑定到 MediaPlayerService
         val serviceIntent = Intent(this, MediaPlayerService::class.java)
         bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
-
-
-        MusicDataHolder.currentMusicIndex.observeForever { newIndex ->
-            initMusic(newIndex)
-        }
-
-
     }
+    // 添加 EventBus 订阅方法
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMusicEvent(event: MusicEvent) {
+        initMusic(event.newIndex)
+    }
+
 
     abstract fun getLayout(): View
     abstract fun initView()
@@ -74,12 +79,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
     override fun onDestroy() {
         super.onDestroy()
-        // 在这里取消观察者
-        //MusicDataHolder.currentMusicIndex.removeObservers(this)
-//        if (isServiceBound) {
-//            unbindService(serviceConnection)
-//            isServiceBound = false
-//        }
+        // 注销 EventBus
+        EventBus.getDefault().unregister(this)
+        if (isServiceBound) {
+            unbindService(serviceConnection)
+            isServiceBound = false
+        }
     }
 
 
