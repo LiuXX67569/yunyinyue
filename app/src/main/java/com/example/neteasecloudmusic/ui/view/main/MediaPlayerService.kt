@@ -29,11 +29,11 @@ class MediaPlayerService : Service() {
         return mediaPlayer
     }
 
-    fun prepareMedia(uri: Uri) {
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(applicationContext, uri)
-        mediaPlayer.prepareAsync()
-    }
+//    fun prepareMedia(uri: Uri) {
+//        mediaPlayer.reset()
+//        mediaPlayer.setDataSource(applicationContext, uri)
+//        mediaPlayer.prepareAsync()
+//    }
 
 
     override fun onDestroy() {

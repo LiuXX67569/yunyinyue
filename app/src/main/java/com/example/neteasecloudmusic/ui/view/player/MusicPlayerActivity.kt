@@ -63,6 +63,8 @@ class MusicPlayerActivity : BaseActivity() {
     }
 
     override fun initView() {
+        currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
+        MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
         rotationFragment = RotationFragment()
         lyricsFragment = LyricsFragment()
         // 初始化 MusicPagerAdapter
@@ -72,7 +74,6 @@ class MusicPlayerActivity : BaseActivity() {
         viewPager.adapter = musicPagerAdapter
         // 设置ViewPager的预加载页面数为1
         viewPager.offscreenPageLimit = 1
-        viewPager.setCurrentItem(0, false) // 将初始片段设置为 RotationFragment
         // ViewPager2 页面切换监听器
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -90,8 +91,6 @@ class MusicPlayerActivity : BaseActivity() {
                 val oldFragment = supportFragmentManager.findFragmentByTag(tag)
                 if (oldFragment != null) {
                     supportFragmentManager.beginTransaction()
-                        .add(viewPager.id, rotationFragment, "f0")
-                        .add(viewPager.id, lyricsFragment, "f1")
                         .hide(oldFragment)
                         .show(currentFragment!!)
                         .commit()
@@ -164,6 +163,7 @@ class MusicPlayerActivity : BaseActivity() {
                 }
             }
         })
+        Log.d("旋转试图检查","initView旋转试图：${rotationFragment}")
     }
 
     // 公共函数处理 IBplay 按钮点击事件
@@ -184,10 +184,8 @@ class MusicPlayerActivity : BaseActivity() {
     }
 
     override fun initData() {
-        currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
-        Log.d("列表位置检查","initData播放器列表位置：${currentMusicIndex}")
-        Log.d("列表位置检查","initData静态列表位置：${MusicDataHolder.currentMusicIndex.value}")
-
+        //currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
+        //MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
         initMusic(currentMusicIndex)
         musicPlayerViewModel = ViewModelProvider(this)[MusicPlayerViewModel::class.java]
         musicPlayerViewModel.musicList.observe(this) {
@@ -280,8 +278,8 @@ class MusicPlayerActivity : BaseActivity() {
         }
     }
     override fun initMusic(index: Int) {
-
         currentMusicIndex = index
+        Log.d("旋转试图检查","initMusic旋转试图：${rotationFragment}")
         Log.d("列表位置检查","initMusic播放器列表位置：${currentMusicIndex}")
         Log.d("列表位置检查","initMusic静态列表位置：${index}")
 
@@ -315,8 +313,6 @@ class MusicPlayerActivity : BaseActivity() {
                 rotationFragment.setFlag()
                 binding.IBplay.setImageResource(R.drawable.img_playerplay)
             }
-            //mediaPlayer.prepareAsync()
-
             // 将歌曲时长传递给 LyricsFragment
             lifecycleScope.launch {
                 val lyricsFragment = (viewPager.adapter as? MusicPagerAdapter)?.getLyricsFragment()

@@ -40,8 +40,7 @@ class RotationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.e("RotationFragment", "RotationFragment onViewCreated")
+        Log.d("RotationFragment", "RotationFragment onViewCreated")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

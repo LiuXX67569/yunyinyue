@@ -152,8 +152,6 @@ class MainActivity : BaseActivity() {
                 originalMusicList.addAll(newList)
                 //更新当前位置并初始化第一首歌曲
                 MusicDataHolder.updateCurrentMusicIndex(currentMusicIndex)
-                Log.d("列表位置检查","initdata主页列表位置：${currentMusicIndex}")
-                Log.d("列表位置检查","initdata静态列表位置：${MusicDataHolder.currentMusicIndex.value}")
             }
         }
 
@@ -162,8 +160,6 @@ class MainActivity : BaseActivity() {
     // 初始化当前歌曲
     override fun initMusic(index: Int) {
         currentMusicIndex = MusicDataHolder.currentMusicIndex.value!!
-        Log.d("列表位置检查","initMusic主页列表位置：${currentMusicIndex}")
-        Log.d("列表位置检查","initMusic静态列表位置：${MusicDataHolder.currentMusicIndex.value}")
         //初始化mp3
         mediaPlayer.reset()
         val musicUrl = "${HttpConfig.servlet}${musicList[index].mp3_file_path}"
@@ -188,8 +184,6 @@ class MainActivity : BaseActivity() {
 
         binding.TVSongTitle.text = musicList[index].music_name
         binding.TVArtist.text = musicList[index].singer
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
