@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:colorPrimaryDark">@color/black</item>
+        <item name="colorPrimary">@color/snow</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:windowBackground">@color/white_smoke</item>
+        <item name="android:navigationBarColor">@color/snow</item>
+        <item name="colorAccent">@color/red</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="startTheme" parent="AppTheme">
+        <item name="android:background">@drawable/start</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.Material3.DayNight.Dialog">
+        <item name="windowNoTitle">true</item>
+    </style>
+<!--    <style name="ToolBarPopupTheme" parent="ThemeOverlay.AppCompat.Light">-->
+<!--        <item name="android:colorBackground">@color/red</item>&lt;!&ndash;设置背景颜色的&ndash;&gt;-->
+<!--        <item name="android:textColorPrimary">@android:color/white</item>&lt;!&ndash;设置文字颜色的&ndash;&gt;-->
+<!--        <item name="android:textSize">16sp</item>&lt;!&ndash;设置文字大小的&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="actionOverflowMenuStyle">@style/OverflowMenuTheme</item>&lt;!&ndash;设置弹出位置的主题&ndash;&gt;&ndash;&gt;-->
+<!--        <item name="android:paddingEnd">-5dp</item>&lt;!&ndash;设置点击”...“弹出的菜单的位置 ，负数是往右移&ndash;&gt;-->
+<!--    </style>-->
+</resources>

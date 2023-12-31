@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" /> <!-- 相机硬件 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- 媒体权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity android:name=".ui.view.songs.AddMenuActivity"
+            android:exported="false"/>
+        <activity android:name=".ui.view.songs.EditMenuActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.view.user.UserHomePageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.login.MyStartActivity"
+            android:exported="true"
+            android:theme="@style/startTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.view.player.MusicPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.songs.SongsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.user.EditUserInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.songs.StorageBoxActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.search.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.login.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.view.main.MainActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.portrait.camera.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <service android:name=".ui.view.main.MediaPlayerService"/>
+    </application>
+
+</manifest>

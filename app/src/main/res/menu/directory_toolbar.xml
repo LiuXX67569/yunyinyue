@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/toolbar_search"
+        android:title="搜索"
+        android:icon="@drawable/img_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.widget.SearchView"
+        />
+    <item
+        android:id="@+id/toolbar_add"
+        android:title="添加歌曲"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/toolbar_edit"
+        android:title="编辑歌单信息"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/toolbar_resort"
+        android:title="更改歌曲排序"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/toolbar_deleteSongs"
+        android:title="清空下载文件"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/toolbar_deleteIt"
+        android:title="删除歌单"
+        app:showAsAction="never"
+        />
+</menu>

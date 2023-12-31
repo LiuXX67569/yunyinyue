@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/bg_login">
+        <TextView
+            android:id="@+id/login_tvEnterNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="立即体验"
+            style="@style/bold_textStyle"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+        <TableRow
+            android:id="@+id/tr3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邮箱："
+                style="@style/normal_textStyle"/>
+
+            <EditText
+                android:id="@+id/login_edtTxtEmail"
+                style="@style/normal_editStyle"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:autofillHints="emailAddress"
+                android:hint="请输入邮箱账号"
+                android:inputType="textEmailAddress"
+                android:textColorHint="#78909C"
+                tools:ignore="TouchTargetSizeCheck" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tr3"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="验证码："
+                style="@style/normal_textStyle" />
+
+            <EditText
+                android:id="@+id/login_edtTxtCode"
+                style="@style/normal_editStyle"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:hint="请输入验证码"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:textColorHint="#78909C"/>
+        </TableRow>
+
+        <TextView
+            android:id="@+id/btn_getCode"
+            style="@style/normal_textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tr2"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:text="获取验证码" />
+
+        <ImageButton
+            android:id="@+id/login_btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@+id/btn_getCode"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_btn_login"
+            />
+    </RelativeLayout>
+</LinearLayout>

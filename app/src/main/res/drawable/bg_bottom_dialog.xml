@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="650dp"
+    android:height="140dp"
+    android:viewportWidth="650"
+    android:viewportHeight="140">
+    <path
+        android:fillColor="#fff"
+        android:name="圆角矩形 1"
+        android:pathData="m8 0h634c4.42 0 8 3.58 8 8v154c0 4.42 -3.58 8 -8 8h-634c-4.42 0 -8 -3.58 -8 -8v-154c0 -4.42 3.58 -8 8 -8z" />
+</vector>

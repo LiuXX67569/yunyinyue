@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        app:strokeWidth = "0dp"
+        android:layout_margin="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/singer_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/img_portrait"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp"
+                android:padding="5dp"
+                />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:text="test"
+                android:paddingLeft="10dp"
+                android:singleLine="true"/>
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                >
+                <!--        <TextView-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="match_parent"-->
+                <!--            android:text="已关注"-->
+                <!--            android:gravity="center"-->
+                <!--            android:textColor="#A9A9A9"-->
+                <!--            android:background="@drawable/radius_follow_cancel"-->
+                <!--            android:textSize="20dp"-->
+                <!--            />-->
+                <TextView
+                    android:id="@+id/tv_follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/not_follow"
+                    android:gravity="center"
+                    android:background="@drawable/radius_follow"
+                    android:textColor="#ff0000"
+                    android:textSize="20dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>
